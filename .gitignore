@@ -1,0 +1,56 @@
+# Terraform
+# Ignore local .terraform directories
+**/.terraform/*
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore crash logs
+crash.log
+
+# Ignore plan output files
+*.tfplan
+
+# Ignore Terraform lock file
+*.tflock
+
+# Ignore state files
+*.tfstate
+*.tfstate.*
+
+# Ignore override files as they are usually used to override resources for testing
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore any .tfvars files that are used to store sensitive variables like passwords
+*.tfvars
+*.tfvars.json
+
+# Ignore envrc files
+.envrc
+.env
+
+# Ignore backup files
+*.backup
+*.log
+
+# Ignore generated module outputs
+*.module.tf
+
+# Ignore provider plugins
+.terraform/plugins/
+
+# Helm
+# Ignore Helm generated files
+**/charts/
+**/releases/
+
+# Ignore secret files
+**/secrets.yaml
+
+# Ignore Helm cache and archive files
+.helm/
+*.tgz
