@@ -37,6 +37,12 @@ variable "description" {
   default     = "GKE Cluster for Spring Boot App"
 }
 
+variable "node_locations" {
+  description = "Zones where GKE nodes would be deployed."
+  type        = list(string)
+  default     = []
+} 
+
 variable "release_channel" {
   description = "The GKE release channel to use (RAPID, REGULAR, STABLE)"
   type        = string

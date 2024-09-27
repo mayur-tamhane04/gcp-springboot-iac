@@ -10,6 +10,7 @@ data "google_compute_network" "network" {
 data "google_compute_subnetwork" "subnet" {
   project = var.project_id
   name    = var.subnet_name
+  region  = var.location
 }
 
 #########################################
@@ -17,22 +18,24 @@ data "google_compute_subnetwork" "subnet" {
 #########################################
 
 resource "google_container_cluster" "springboot_gke" {
-  name            = var.name
-  location        = var.location
-  description     = var.description
+  name                     = var.name
+  location                 = var.location
+  description              = var.description
+  initial_node_count       = 1
+  node_locations           = var.node_locations 
   networking_mode = "VPC_NATIVE"
   release_channel {
     channel = var.release_channel
   }
-  network          = data.google_compute_network.network.id
-  subnetwork       = data.google_compute_subnetwork.subnet.id
-  effective_labels = var.labels
+  network         = data.google_compute_network.network.id
+  subnetwork      = data.google_compute_subnetwork.subnet.id
+  resource_labels = var.labels
   ip_allocation_policy {
     cluster_secondary_range_name  = var.pod_ip_range_name
     services_secondary_range_name = var.service_ip_range_name
   }
   private_cluster_config {
-    enable_private_nodes    = false
+    enable_private_nodes    = true
     enable_private_endpoint = false
     master_global_access_config {
       enabled = true
@@ -46,12 +49,12 @@ resource "google_container_cluster" "springboot_gke" {
     content {
       cidr_blocks {
         cidr_block   = master_authorized_networks_config.value
-        display_name = master_authorized_networks_config.key        
+        display_name = master_authorized_networks_config.key
       }
       gcp_public_cidrs_access_enabled = true
     }
   }
-  
+
   addons_config {
     gce_persistent_disk_csi_driver_config {
       enabled = true
@@ -69,7 +72,13 @@ resource "google_container_cluster" "springboot_gke" {
       disabled = false
     }
   }
+
   workload_identity_config {
     workload_pool = "${var.project_id}.svc.id.goog"
+  }
+
+  node_config {
+    disk_size_gb = 10
+    disk_type    = "pd-standard"
   }
 }
