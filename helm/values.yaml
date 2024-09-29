@@ -23,7 +23,7 @@ helm_service_37cdd65a28505254a68de58cdcc6303b:
     protocol: TCP
     selector_labels:
         service: myapp
-    target_port: 80
+    target_port: 8080
     type: ClusterIP
 helm_service_account_6c2de3b51e325bc98a35fccf44ac3ee8:
     annotations: {}
@@ -32,11 +32,11 @@ helm_service_account_6c2de3b51e325bc98a35fccf44ac3ee8:
     name: spring-petclinic-gcp
 helm_workload_c0d3ce0f09a052448dab08dcc977ed34:
     env:
-        MYSQL_PASS: petclinic
-        MYSQL_URL: localhost/petclinic
-        MYSQL_USER: petclinic
+        MYSQL_PASS:
+        MYSQL_URL:
+        MYSQL_USER:
         POSTGRES_PASS: admin@123
-        POSTGRES_URL: 10.109.153.3
+        POSTGRES_URL: jdbc:postgresql://10.109.153.3/main
         POSTGRES_USER: admin
         database: main
     env_from_config: []
@@ -44,7 +44,7 @@ helm_workload_c0d3ce0f09a052448dab08dcc977ed34:
     image: "mayurtamhane04/spring-petclinic"
     image_pull_policy: "Always"
     image_pull_secret: my-docker-secret
-    image_tag: "3.3.0-SNAPSHOT"
+    image_tag: "3.3.1-SNAPSHOT"
     kind: Deployment
     labels:
         service: myapp
