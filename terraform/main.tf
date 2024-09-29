@@ -8,12 +8,12 @@ module "gke_cluster" {
   # common config
   project_id      = "helical-lantern-436602-c8"
   name            = "springboot-app-cluster"
-  location        = "asia-southeast1"
+  location        = "us-east4"
   description     = "GKE Cluster for Spring Boot App"
   release_channel = "STABLE"
   node_locations = [
-    "asia-southeast1-a",
-    "asia-southeast1-c"
+    "us-east4-a",
+    "us-east4-c"
   ]
 
   labels = {
@@ -23,7 +23,7 @@ module "gke_cluster" {
 
   # networking config
   network_name          = "gke-vpc"
-  subnet_name           = "subnet1"
+  subnet_name           = "sub-usse4"
   pod_ip_range_name     = "pod-range"
   service_ip_range_name = "service-range"
   master_authorized_networks = {
@@ -65,10 +65,10 @@ module "gke_node_pool" {
   # common config
   project_id = "helical-lantern-436602-c8"
   name       = "springboot-np"
-  location   = "asia-southeast1"
+  location   = "us-east4"
   node_locations = [
-    "asia-southeast1-a",
-    "asia-southeast1-c"
+    "us-east4-a",
+    "us-east4-c"
   ]
   gke_cluster_id        = module.gke_cluster.gke_cluster_id
   initial_node_count    = 1
@@ -80,7 +80,7 @@ module "gke_node_pool" {
 
   # network config
   network_name         = "gke-vpc"
-  subnet_name          = "subnet1"
+  subnet_name          = "sub-usse4"
   enable_private_nodes = true
 
   # mgmt config
@@ -113,7 +113,7 @@ module "postgres_cloud_sql" {
 
   # common config
   project_id           = "helical-lantern-436602-c8"
-  region               = "asia-southeast1"
+  region               = "us-east4"
   name                 = "springboot-db"
   engine               = "POSTGRES_11"
   machine_type         = "db-custom-2-4096"
@@ -134,11 +134,21 @@ module "postgres_cloud_sql" {
   enable_public_internet_access = false
   network_name                  = "gke-vpc"
 
-  # Backup Settings
-  backup_enabled                          = false
+  # Backup config
+  backup_enabled                          = true
   backup_region                           = "europe-west2"
   backup_start_time                       = "04:00"
   postgres_point_in_time_recovery_enabled = true
+
+  # Database config
+  db_name         = "main"
+  charset         = "UTF8"
+  collation       = "en_US.UTF8"
+  deletion_policy = "DELETE"
+
+  # SQL user config
+  sql_user_name     = "admin"
+  sql_user_password = var.sql_user_password
 
   depends_on = [module.private_service_conn]
 }

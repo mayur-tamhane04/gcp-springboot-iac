@@ -1,3 +1,4 @@
+
 locals {
   is_postgres = replace(var.engine, "POSTGRES", "") != var.engine
   is_mysql    = replace(var.engine, "MYSQL", "") != var.engine
@@ -7,10 +8,15 @@ locals {
   actual_failover_replica_count = local.is_postgres ? 0 : var.enable_failover_replica ? 1 : 0
 }
 
+# Getting the network information.
 data "google_compute_network" "network" {
-  project  = var.project_id
-  name     = var.network_name
+  project = var.project_id
+  name    = var.network_name
 }
+
+########################
+## Cloud SQL instance ##
+########################
 
 resource "google_sql_database_instance" "instance" {
   name             = var.name
@@ -79,4 +85,29 @@ resource "google_sql_database_instance" "instance" {
       settings[0].disk_size
     ]
   }
+}
+
+#########################
+## Cloud SQL database ##
+#########################
+
+resource "google_sql_database" "database" {
+  project         = var.project_id
+  name            = var.db_name
+  instance        = google_sql_database_instance.instance.name
+  charset         = var.charset
+  collation       = var.collation
+  deletion_policy = var.deletion_policy
+}
+
+####################
+## Cloud SQL user ##
+####################
+
+resource "google_sql_user" "sql_user" {
+  project  = var.project_id
+  name     = var.sql_user_name
+  instance = google_sql_database_instance.instance.name
+  type     = "BUILT_IN"
+  password = var.sql_user_password
 }

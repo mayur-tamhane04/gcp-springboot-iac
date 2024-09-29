@@ -3,18 +3,6 @@ variable "project_id" {
   type        = string
 }
 
-variable "charset" {
-  description = "The charset value."
-  type        = string
-  default     = "UTF8"
-}
-
-variable "collation" {
-  description = "The collation value."
-  type        = string
-  default     = "en_US.UTF8"
-}
-
 variable "network_name" {
   description = "VPC name from which Cloud SQL would be connected."
   type        = string
@@ -203,4 +191,42 @@ variable "ignore_changes" {
   type        = any
   description = "changes to ignore"
   default     = []
+}
+
+# Database related variables
+
+variable "db_name" {
+  description = "Database name."
+  type        = string
+  default     = "main"
+}
+
+variable "charset" {
+  description = "The charset value."
+  type        = string
+  default     = "UTF8"
+}
+
+variable "collation" {
+  description = "The collation value."
+  type        = string
+  default     = "en_US.UTF8"
+}
+
+variable "deletion_policy" {
+  description = "The deletion policy for the database. Setting ABANDON allows the resource to be abandoned rather than deleted."
+  type        = string
+  default     = "DELETE"
+}
+
+# SQL user realted variables
+variable "sql_user_name" {
+  description = "The name of the user."
+  type        = string
+  default     = "admin"
+}
+
+variable "sql_user_password" {
+  description = "The password for the user. Set this up as a environment variable."
+  type        = string
 }

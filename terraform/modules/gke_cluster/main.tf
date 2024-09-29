@@ -40,8 +40,9 @@ resource "google_container_cluster" "springboot_gke" {
     master_global_access_config {
       enabled = true
     }
+    master_ipv4_cidr_block = "172.16.0.0/28"
   }
-
+  
   enable_l4_ilb_subsetting = var.enable_l4_ilb_subsetting
   enable_shielded_nodes    = var.enable_shielded_nodes
   dynamic "master_authorized_networks_config" {
@@ -78,7 +79,7 @@ resource "google_container_cluster" "springboot_gke" {
   }
 
   node_config {
-    disk_size_gb = 10
+    disk_size_gb = 20
     disk_type    = "pd-standard"
   }
 }

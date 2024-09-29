@@ -5,9 +5,8 @@ terraform {
       version = "6.4.0"
     }
   }
-
   backend "gcs" {
-    bucket  = "springboot-app-tf-state"  
-    prefix  = "terraform/state" 
+    bucket = "springboot-app-tf-state"
+    prefix = "terraform/state"
   }
 }

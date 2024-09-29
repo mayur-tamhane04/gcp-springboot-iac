@@ -1,0 +1,7 @@
+apiVersion: v2
+appVersion: 1.0.0
+description: Generated helm chart created for service "gcp-springboot-iac" with
+  appcd
+name: gcp-springboot-iac
+type: application
+version: 0.1.0
