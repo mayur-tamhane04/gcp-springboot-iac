@@ -114,7 +114,7 @@ helm install <release name> <path to helm folder>
 
 1. In the spring boot application source code, go to this folder to get the data and schema sql files.
 ```
-cd /home/mayureshtamhane02/helm/spring-petclinic/src/main/resources/db/postgres/
+cd src/main/resources/db/postgres/
 ```
 
 2. Login to the database using psql command and provide the password
