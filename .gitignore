@@ -14,6 +14,7 @@ crash.log
 
 # Ignore Terraform lock file
 *.tflock
+.terraform.lock.hcl
 
 # Ignore state files
 *.tfstate
